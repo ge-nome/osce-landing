@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+ .flip-counter {
+  display: flex;
+  gap: 10px;
+  font-family: sans-serif;
+}
+
+.digit {
+   width: 80px;
+  height: 120px;
+  font-size: 100px;
+  font-weight: bold;
+  background: #f0f9fa;
+  color: #0a0a23;
+  text-align: center;
+  line-height: 120px;
+  border-radius: 10px;
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}
+
+.top,
+.bottom {
+  position: absolute;
+  width: 100%;
+  height: 50%;
+  overflow: hidden;
+  background: #e7f7f8;
+  color: #0a0a23;
+  text-align: center;
+  line-height: 60px;
+  font-size: 80px;
+  font-weight: bold;
+  backface-visibility: hidden;
+  border-radius: 10px;
+}
+
+.top {
+  top: 0;
+  border-bottom: 1px solid #ccc;
+  z-index: 2;
+}
+
+.bottom {
+  bottom: 0;
+  border-top: 1px solid #ccc;
+  transform: rotateX(180deg);
+}
+
+.flip-top {
+  animation: flipTop 0.5s forwards;
+}
+
+.flip-bottom {
+  animation: flipBottom 0.5s forwards;
+}
+
+@keyframes flipTop {
+  0% { transform: rotateX(0); }
+  100% { transform: rotateX(-90deg); }
+}
+
+@keyframes flipBottom {
+  0% { transform: rotateX(90deg); }
+  100% { transform: rotateX(0); }
+}
+
+    </style>
+</head>
+<body>
+<div class="flip-counter">
+  <div class="digit" id="digit-2">0</div>
+  <div class="digit" id="digit-1">0</div>
+  <div class="digit" id="digit-0">0</div>
+</div>
+
+</body>
+<script>
+let count = 0;
+
+function updateDigit(id, newValue) {
+  const digit = document.getElementById(id);
+
+  if (digit.textContent !== newValue.toString()) {
+    digit.style.opacity = '0';
+    digit.style.transform = 'rotateX(90deg)';
+
+    setTimeout(() => {
+      digit.textContent = newValue;
+      digit.style.transform = 'rotateX(0deg)';
+      digit.style.opacity = '1';
+    }, 250); // halfway through the animation
+  }
+}
+
+const interval = setInterval(() => {
+  if (count > 210) {
+    clearInterval(interval);
+    return;
+  }
+
+  const digits = String(count).padStart(3, '0').split('');
+  updateDigit('digit-2', digits[0]);
+  updateDigit('digit-1', digits[1]);
+  updateDigit('digit-0', digits[2]);
+
+  count++;
+}, 10);
+
+
+</script>
+</html>
