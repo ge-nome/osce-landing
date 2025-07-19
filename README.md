@@ -1,2 +1,2 @@
 # osce-landing
-Plain old html + tailwiind
+Plain old html + tailwind
